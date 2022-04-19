@@ -23,7 +23,6 @@ class BooksApiTestCase(APITestCase):
                                           author_name='Author 3')
         UserBookRelation.objects.create(user=self.user, book=self.book_1, like=True, rate=5)
 
-
     def test_get(self):
         url = reverse('book-list')
         response = self.client.get(url)
@@ -35,7 +34,6 @@ class BooksApiTestCase(APITestCase):
         self.assertEqual(serializer_data, response.data)
         self.assertEqual(serializer_data[0]['rating'], '5.00')
         self.assertEqual(serializer_data[0]['annotated_likes'], 1)
-
 
     def test_get_filter(self):
         url = reverse('book-list')
@@ -56,14 +54,6 @@ class BooksApiTestCase(APITestCase):
         serializer_data = BookSerializer(books, many=True).data
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertEqual(serializer_data, response.data)
-
-
-    # def test_get_ordering(self):
-    #     url = reverse('book-list')
-    #     response = self.client.get(url, data={'ordering': "price"})
-    #     serializer_data = BookSerializer([self.book_1, self.book_4, self.book_3, self.book_2], many=True).data
-    #     self.assertEqual(status.HTTP_200_OK, response.status_code)
-    #     self.assertEqual(serializer_data, response.data)
 
     def test_create(self):
         self.assertEqual(4, Book.objects.all().count())
